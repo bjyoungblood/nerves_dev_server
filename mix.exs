@@ -29,18 +29,15 @@ defmodule NervesDevServer.MixProject do
 
   # Specifies your project dependencies.
   #
-  # Type `mix help deps` for examples and options.
+  #   Type `mix help deps` for examples and options.
   defp deps do
     [
       {:alarmist, "~> 0.1.0", optional: true},
       {:bandit, "~> 1.5"},
-      {:dns_cluster, "~> 0.1.1"},
       {:jason, "~> 1.2"},
       {:nerves_motd, "~> 0.1"},
       {:nerves_runtime, "~> 0.13"},
-      {:phoenix, "~> 1.7.18"},
-      {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"}
+      {:phoenix, "~> 1.7.0"}
     ]
   end
 

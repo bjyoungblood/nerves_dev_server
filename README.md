@@ -1,18 +1,24 @@
-# NervesDevServer
+# Nerves Dev Server
 
-To start your Phoenix server:
+Nerves Dev Server is part of the [Nerves Devtools](https://github.com/bjyoungblood/vscode-nerves-devtools)
+suite. When installed on a [Nerves](https://nerves-project.org/) device, this
+package exposes a Phoenix application that provides runtime data and an API for
+development utilities.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Features
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+* Provide device metadata (e.g. firmware version, active partition, platform information, etc.)
+* Hot module replacement
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Roadmap
 
-## Learn more
+* API authentication
+* Logging tools
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+## Installation
+
+**Warning:** One of the main features of this application is the ability to do
+remote code execution. You are advised against using this project in production
+or on devices that may connect to untrusted networks. In the future, it will be
+possible to enable/disable this functionality entirely, but we're not quite
+there yet.

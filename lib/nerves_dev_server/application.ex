@@ -7,8 +7,6 @@ defmodule NervesDevServer.Application do
   def start(_type, _args) do
     children = [
       NervesDevServer.CodeCompiler,
-      NervesDevServerWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:nerves_dev_server, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: NervesDevServer.PubSub},
       NervesDevServerWeb.Endpoint
     ]

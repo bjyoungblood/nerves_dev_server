@@ -1,4 +1,5 @@
 defmodule NervesDevServerWeb.Channels.TelemetryChannel do
+  @moduledoc false
   use Phoenix.Channel
 
   alias Nerves.Runtime.KV

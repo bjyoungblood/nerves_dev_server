@@ -1,4 +1,5 @@
 defmodule NervesDevServerWeb.Channels.CodeChannel do
+  @moduledoc false
   use Phoenix.Channel
 
   alias NervesDevServer.CodeCompiler

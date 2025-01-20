@@ -1,4 +1,6 @@
 defmodule NervesDevServerWeb.Endpoint do
+  @moduledoc false
+
   use Phoenix.Endpoint, otp_app: :nerves_dev_server
 
   # The session will be stored in the cookie and signed,
@@ -18,7 +20,6 @@ defmodule NervesDevServerWeb.Endpoint do
   end
 
   plug Plug.RequestId
-  plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

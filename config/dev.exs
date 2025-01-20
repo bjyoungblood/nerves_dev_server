@@ -9,7 +9,13 @@ import Config
 config :nerves_dev_server, NervesDevServerWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: :any, port: 4000],
+  https: [
+    ip: :any,
+    port: 4001,
+    keyfile: "priv/cert/selfsigned_key.pem",
+    certfile: "priv/cert/selfsigned.pem"
+  ],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
@@ -75,10 +81,8 @@ config :nerves_runtime,
        "nerves_fw_active" => "a",
        "nerves_fw_devpath" => "/dev/mmcblk0",
        "nerves_fw_validated" => "1",
-       "nerves_serial_number" => ""
+       "nerves_serial_number" => "12345"
      }}
 
-if Mix.env() == :test do
-  config :nerves_motd, runtime_mod: NervesMOTD.MockRuntime
-  config :elixir, ansi_enabled: false
-end
+config :nerves_motd, runtime_mod: NervesMOTD.MockRuntime
+# config :elixir, ansi_enabled: false

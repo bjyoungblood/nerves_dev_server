@@ -1,4 +1,6 @@
 defmodule NervesDevServerWeb.Router do
+  @moduledoc false
+
   use NervesDevServerWeb, :router
 
   pipeline :api do

@@ -1,7 +1,7 @@
 defmodule NervesDevServer.CodeCompiler do
   @moduledoc """
-  The CodeCompiler module is responsible for compiling code and tracking which
-  module(s) are now dirty.
+  A GenServer responsible for compiling code and tracking which module(s) are
+  now dirty.
   """
 
   use GenServer
@@ -42,12 +42,23 @@ defmodule NervesDevServer.CodeCompiler do
           {:ok, [module()], [Code.diagnostic(:warning | :error)]}
           | {:error, [module()], binary() | iodata()}
   defp do_compile(code, file) do
-    {{result, modules}, diagnostics} =
+    {{result, modules_or_err}, diagnostics} =
       Code.with_diagnostics(fn ->
         try do
+          # Store the current value of the ignore_module_conflict option
+          # and then disable it.
+          prev_opt = Code.get_compiler_option(:ignore_module_conflict)
+          Code.compiler_options(ignore_module_conflict: true)
+
           result = Code.compile_string(code, file)
+
+          # Restore the previous value of the ignore_module_conflict option
+          Code.compiler_options(ignore_module_conflict: prev_opt)
+
+          # Map over the result to get the names of any created modules
           modules = Enum.map(result, &elem(&1, 0))
           Code.purge_compiler_modules()
+
           {:ok, modules}
         rescue
           err -> {:error, err}
@@ -61,7 +72,7 @@ defmodule NervesDevServer.CodeCompiler do
         :ok
       end
 
-    {result, modules, format_diagnostics(diagnostics)}
+    {result, modules_or_err, format_diagnostics(diagnostics)}
   end
 
   defp format_diagnostics(diagnostics) do
