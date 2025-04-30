@@ -8,18 +8,10 @@
 import Config
 
 config :nerves_dev_server,
-  generators: [timestamp_type: :utc_datetime]
-
-# Configures the endpoint
-config :nerves_dev_server, NervesDevServerWeb.Endpoint,
-  url: [host: "localhost"],
-  adapter: Bandit.PhoenixAdapter,
-  render_errors: [
-    formats: [json: NervesDevServerWeb.ErrorJSON],
-    layout: false
-  ],
-  pubsub_server: NervesDevServer.PubSub,
-  live_view: [signing_salt: "v+siXJFH"]
+  generators: [timestamp_type: :utc_datetime],
+  endpoint: [
+    url: [host: "localhost"]
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,

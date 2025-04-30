@@ -1,7 +1,8 @@
 defmodule NervesDevServerWeb do
   @moduledoc false
 
-  def router do
+  @spec router() :: Macro.t()
+  def router() do
     quote do
       use Phoenix.Router, helpers: false
 
@@ -11,13 +12,15 @@ defmodule NervesDevServerWeb do
     end
   end
 
-  def channel do
+  @spec channel() :: Macro.t()
+  def channel() do
     quote do
       use Phoenix.Channel
     end
   end
 
-  def controller do
+  @spec controller() :: Macro.t()
+  def controller() do
     quote do
       use Phoenix.Controller,
         formats: [:html, :json],
@@ -29,7 +32,8 @@ defmodule NervesDevServerWeb do
     end
   end
 
-  def verified_routes do
+  @spec verified_routes() :: Macro.t()
+  def verified_routes() do
     quote do
       use Phoenix.VerifiedRoutes,
         endpoint: NervesDevServerWeb.Endpoint,

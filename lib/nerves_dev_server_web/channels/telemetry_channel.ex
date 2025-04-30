@@ -12,7 +12,7 @@ defmodule NervesDevServerWeb.Channels.TelemetryChannel do
     socket = assign(socket, :telemetry_interval, @default_telemetry_interval)
 
     if Code.ensure_loaded?(Alarmist) do
-      PropertyTable.subscribe(Alarmist, [:_, :status])
+      PropertyTable.subscribe(Alarmist, [])
     end
 
     Process.send_after(self(), :after_join, 0)
@@ -31,8 +31,7 @@ defmodule NervesDevServerWeb.Channels.TelemetryChannel do
   end
 
   @impl Phoenix.Channel
-  def handle_in(event, payload, socket) do
-    IO.inspect(binding())
+  def handle_in(_event, _payload, socket) do
     {:noreply, socket}
   end
 
@@ -52,7 +51,7 @@ defmodule NervesDevServerWeb.Channels.TelemetryChannel do
     {:noreply, socket}
   end
 
-  def handle_info(%PropertyTable.Event{table: Alarmist}, socket) do
+  def handle_info(%Alarmist.Event{}, socket) do
     push_alarms(socket)
     {:noreply, socket}
   end
@@ -81,7 +80,7 @@ defmodule NervesDevServerWeb.Channels.TelemetryChannel do
   defp push_alarms(socket) do
     if Code.ensure_loaded?(Alarmist) do
       push(socket, "alarms", %{
-        "alarms" => Enum.map(Alarmist.current_alarms(), &inspect/1)
+        "alarms" => Enum.map(Alarmist.get_alarm_ids(), &inspect/1)
       })
     end
   end

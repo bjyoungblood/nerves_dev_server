@@ -13,6 +13,7 @@ defmodule NervesDevServer.Runtime.Target do
 
   @behaviour NervesDevServer.Runtime
 
+  @impl NervesDevServer.Runtime
   def cpu_temperature() do
     case Target.cpu_temperature() do
       {:ok, float} -> Float.round(float, 1)
@@ -20,6 +21,7 @@ defmodule NervesDevServer.Runtime.Target do
     end
   end
 
+  @impl NervesDevServer.Runtime
   def memory_stats() do
     case Target.memory_stats() do
       {:ok, stats} -> stats
@@ -27,6 +29,7 @@ defmodule NervesDevServer.Runtime.Target do
     end
   end
 
+  @impl NervesDevServer.Runtime
   def load_average() do
     case NervesMOTD.Runtime.Target.load_average() do
       [a, b, c | _] -> Enum.join([a, b, c], " / ")

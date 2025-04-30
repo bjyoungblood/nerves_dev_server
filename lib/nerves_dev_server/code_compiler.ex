@@ -16,7 +16,7 @@ defmodule NervesDevServer.CodeCompiler do
     GenServer.call(__MODULE__, :dirty_modules)
   end
 
-  @spec start_link() :: GenServer.on_start()
+  @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(_ \\ []) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
@@ -38,26 +38,24 @@ defmodule NervesDevServer.CodeCompiler do
     {:reply, MapSet.to_list(state.dirty_modules), state}
   end
 
-  @spec do_compile(binary(), binary()) ::
-          {:ok, [module()], [Code.diagnostic(:warning | :error)]}
-          | {:error, [module()], binary() | iodata()}
+  @spec do_compile(binary(), binary()) :: {:ok | :error, [module()], iodata()}
   defp do_compile(code, file) do
     {{result, modules_or_err}, diagnostics} =
       Code.with_diagnostics(fn ->
         try do
           # Store the current value of the ignore_module_conflict option
           # and then disable it.
-          prev_opt = Code.get_compiler_option(:ignore_module_conflict)
-          Code.compiler_options(ignore_module_conflict: true)
+          %{ignore_module_conflict: prev_opt} =
+            Code.compiler_options(ignore_module_conflict: true)
 
           result = Code.compile_string(code, file)
 
           # Restore the previous value of the ignore_module_conflict option
-          Code.compiler_options(ignore_module_conflict: prev_opt)
+          _ = Code.compiler_options(ignore_module_conflict: prev_opt)
 
           # Map over the result to get the names of any created modules
           modules = Enum.map(result, &elem(&1, 0))
-          Code.purge_compiler_modules()
+          _ = Code.purge_compiler_modules()
 
           {:ok, modules}
         rescue
@@ -76,8 +74,7 @@ defmodule NervesDevServer.CodeCompiler do
   end
 
   defp format_diagnostics(diagnostics) do
-    Enum.map(diagnostics, &format_diagnostic/1)
-    |> Enum.join()
+    Enum.map_join(diagnostics, &format_diagnostic/1)
   end
 
   defp format_diagnostic(%{severity: s, position: p, file: f, message: m} = diagnostic) do

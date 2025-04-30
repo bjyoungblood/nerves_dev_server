@@ -6,21 +6,16 @@ import Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :nerves_dev_server, NervesDevServerWeb.Endpoint,
-  # Binding to loopback ipv4 address prevents access from other machines.
-  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: :any, port: 4000],
-  https: [
-    ip: :any,
-    port: 4001,
-    keyfile: "priv/cert/selfsigned_key.pem",
-    certfile: "priv/cert/selfsigned.pem"
-  ],
-  check_origin: false,
-  code_reloader: true,
-  debug_errors: true,
-  secret_key_base: "pFPuEB5YsKYlJHYylgc1nDVAg0wvQOnNF6QOw3rOUIIfLdML7zbJ43agwxS337cy",
-  watchers: []
+config :nerves_dev_server,
+  token_secret: "a very secret string. very secret, indeed.",
+  endpoint: [
+    # Binding to loopback ipv4 address prevents access from other machines.
+    # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+    http: [ip: :any, port: 4000],
+    check_origin: false,
+    debug_errors: true
+    # secret_key_base: "pFPuEB5YsKYlJHYylgc1nDVAg0wvQOnNF6QOw3rOUIIfLdML7zbJ43agwxS337cy"
+  ]
 
 # ## SSL Support
 #
@@ -44,9 +39,6 @@ config :nerves_dev_server, NervesDevServerWeb.Endpoint,
 # If desired, both `http:` and `https:` keys can be
 # configured to run both http and https servers on
 # different ports.
-
-# Enable dev routes for dashboard and mailbox
-config :nerves_dev_server, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
