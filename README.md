@@ -49,5 +49,5 @@ config :nerves_dev_server,
 config :phoenix, :json_library, Jason
 ```
 
-[Nerves Devtools]: https://github.com/bjyoungblood/vscode-nerves-devtools
+[Nerves Devtools]: https://github.com/bjyoungblood/nerves_devtools_vscode
 [Nerves]: https://nerves-project.org/
